@@ -17,7 +17,7 @@ public class SpaceReqDto {
     private LocalDate endDate;
     private String description;
 //    private List<Long> memberIds;
-    private Integer nationCode;
-    private Integer cityCode;
+    private String nationCode;
+    private String cityCode;
     private Integer maxMembers;
 }

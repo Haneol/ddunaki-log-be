@@ -40,10 +40,10 @@ public class Space {
     private List<User> members = new ArrayList<>();
 
     //null 가능
-    private Integer nationCode;
+    private String nationCode;
 
     //null 가능
-    private Integer cityCode;
+    private String cityCode;
 
     private Integer maxMembers;
 
@@ -52,7 +52,7 @@ public class Space {
 
     @Builder
     public Space(String spaceName, User leader, LocalDate startDate, LocalDate endDate, String description,
-                 List<User> members, Integer nationCode, Integer cityCode, Integer maxMembers) {
+                 List<User> members, String nationCode, String cityCode, Integer maxMembers) {
 
         this.spaceName = spaceName;
         this.leader = leader;
@@ -60,6 +60,17 @@ public class Space {
         this.endDate = endDate;
         this.description = description;
         this.members = members != null ? members : new ArrayList<>(); // members가 null이면 빈 리스트로 초기화
+        this.nationCode = nationCode;
+        this.cityCode = cityCode;
+        this.maxMembers = maxMembers;
+    }
+
+    public void update(String spaceName, LocalDate startDate, LocalDate endDate, String description,
+                       String nationCode, String cityCode, Integer maxMembers){
+        this.spaceName = spaceName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
         this.nationCode = nationCode;
         this.cityCode = cityCode;
         this.maxMembers = maxMembers;
@@ -78,7 +89,7 @@ public class Space {
         this.description = description;
     }
 
-    public void updateCode(Integer nationCode, Integer cityCode) {
+    public void updateCode(String nationCode, String cityCode) {
         this.nationCode = nationCode;
         this.cityCode = cityCode;
     }

@@ -20,8 +20,8 @@ public class SpaceResDto {
     private final LocalDate endDate;
     private final String description;
     private final List<MemberDto> members;
-    private final Integer nationCode;
-    private final Integer cityCode;
+    private final String nationCode;
+    private final String cityCode;
     private final Integer maxMembers;
 
     public static SpaceResDto entityToDto(Space space) {

@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 public class SpaceCodeResDto {
-    private final Integer nationCode;
-    private final Integer cityCode;
+    private final String nationCode;
+    private final String cityCode;
 
     public static SpaceCodeResDto entityToDto(Space space){
         return SpaceCodeResDto.builder()
