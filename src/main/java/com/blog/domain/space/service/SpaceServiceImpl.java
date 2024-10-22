@@ -26,9 +26,9 @@ public class SpaceServiceImpl implements SpaceService {
     private final UserRepository userRepository;
     private final SecurityUtils securityUtils;
 
-    private User getLoggedInUser() {
-        String loggedInUserEmail = securityUtils.getLoggedInUserEmail();
-        return userRepository.findByEmail(loggedInUserEmail)
+    private User getLoginUser() {
+        String loginUserEmail = securityUtils.getLoginUserEmail();
+        return userRepository.findByEmail(loginUserEmail)
                 .orElseThrow(() -> new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage()));
     }
 
@@ -77,11 +77,28 @@ public class SpaceServiceImpl implements SpaceService {
         return SpaceResDto.entityToDto(space);
     }
 
+    @Override
+    public SpaceResDto updateSpace(UpdateSpaceReqDto updateSpaceReqDto) {
+        User user = getLoginUser();
+
+        Space space = spaceRepository.findById(updateSpaceReqDto.getSpaceId())
+                .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
+
+        checkLeaderAuthority(space, user);
+
+        space.update(updateSpaceReqDto.getSpaceName(), updateSpaceReqDto.getStartDate(), updateSpaceReqDto.getEndDate(), updateSpaceReqDto.getDescription(),
+                updateSpaceReqDto.getNationCode(), updateSpaceReqDto.getCityCode(), updateSpaceReqDto.getMaxMembers());
+
+        spaceRepository.save(space);
+
+        return SpaceResDto.entityToDto(space);
+    }
+
 
     //방장만 수정 가능
     @Override
     public SpaceNameResDto updateSpaceName(SpaceNameReqDto spaceNameReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceNameReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -99,7 +116,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceDateResDto updateSpaceDate(SpaceDateReqDto spaceDateReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceDateReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -115,7 +132,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceCodeResDto updateSpaceCode(SpaceCodeReqDto spaceCodeReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceCodeReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -131,7 +148,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceDescriptionResDto updateSpaceDescription(SpaceDescriptionReqDto spaceDescriptionReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceDescriptionReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -147,7 +164,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceMaxMembersResDto updateMaxMembers(SpaceMaxMembersReqDto spaceMaxMembersReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceMaxMembersReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -176,7 +193,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public void deleteSpace(Long spaceId) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceId)
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -191,7 +208,7 @@ public class SpaceServiceImpl implements SpaceService {
     //유저가 max인원보다 많으면 에러
     @Override
     public SpaceMembersResDto addMember(SpaceMembersReqDto spaceMembersReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceMembersReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -221,7 +238,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceMembersResDto deleteMember(SpaceMembersReqDto spaceMembersReqDto) {
-        User user = getLoggedInUser();
+        User user = getLoginUser();
 
         Space space = spaceRepository.findById(spaceMembersReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
@@ -244,5 +261,12 @@ public class SpaceServiceImpl implements SpaceService {
         return SpaceMembersResDto.entityToDto(space);
     }
 
+    @Override
+    public SpaceMembersResDto findMembers(Long spaceId) {
 
+        Space space = spaceRepository.findById(spaceId)
+                .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
+
+        return SpaceMembersResDto.entityToDto(space);
+    }
 }
