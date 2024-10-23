@@ -73,10 +73,9 @@ public class PostingController {
                 .body(postingService.findAllPostingByScheduleId(scheduleId));
     }
 
-    // 댓글 수 확인 API
-    @GetMapping("/{postingId}/commentCount")
+    @GetMapping("/comment/{postingId}")
     public ResponseEntity<Integer> getCommentCount(@PathVariable Long postingId) {
-        int commentCount = postingService.getCommentCnt(postingId);
-        return ResponseEntity.ok(commentCount);
+        int commentCnt = postingService.getCommentCnt(postingId);
+        return ResponseEntity.ok(commentCnt);
     }
 }
