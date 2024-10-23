@@ -7,17 +7,17 @@ import java.util.List;
 public interface SpaceService {
     SpaceResDto addSpace(SpaceReqDto spaceReqDto);
 
-    SpaceResDto updateSpace(UpdateSpaceReqDto updateSpaceReqDto);
+    SpaceResDto updateSpace(Long spaceId, UpdateSpaceReqDto updateSpaceReqDto);
 
-    SpaceNameResDto updateSpaceName(SpaceNameReqDto spaceNameReqDto);
+    SpaceNameResDto updateSpaceName(Long spaceId, SpaceNameReqDto spaceNameReqDto);
 
-    SpaceDateResDto updateSpaceDate(SpaceDateReqDto spaceDateReqDto);
+    SpaceDateResDto updateSpaceDate(Long spaceId, SpaceDateReqDto spaceDateReqDto);
 
-    SpaceCodeResDto updateSpaceCode(SpaceCodeReqDto spaceCodeReqDto);
+    SpaceCodeResDto updateSpaceCode(Long spaceId, SpaceCodeReqDto spaceCodeReqDto);
 
-    SpaceDescriptionResDto updateSpaceDescription(SpaceDescriptionReqDto spaceDescriptionReqDto);
+    SpaceDescriptionResDto updateSpaceDescription(Long spaceId, SpaceDescriptionReqDto spaceDescriptionReqDto);
 
-    SpaceMaxMembersResDto updateMaxMembers(SpaceMaxMembersReqDto spaceMaxMembersReqDto);
+    SpaceMaxMembersResDto updateMaxMembers(Long spaceId, SpaceMaxMembersReqDto spaceMaxMembersReqDto);
 
     List<SpaceResDto> findAllSpaces(int nationCode, int cityCode);
 
