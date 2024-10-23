@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Builder
 public class UpdateScheduleReqDto {
     private Long spaceId;
-    private Long scheduleId;
     private String spot;
     private String memo;
     private LocalDate day;

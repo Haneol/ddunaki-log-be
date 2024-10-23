@@ -25,10 +25,10 @@ public class ScheduleController {
                 .body(scheduleService.addSchedule(scheduleReqDto));
     }
 
-    @PutMapping("")
-    public ResponseEntity<ScheduleResDto> updateSchedule(@RequestBody UpdateScheduleReqDto updateScheduleReqDto) {
+    @PutMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleResDto> updateSchedule(@PathVariable Long scheduleId, @RequestBody UpdateScheduleReqDto updateScheduleReqDto) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(scheduleService.updateSchedule(updateScheduleReqDto));
+                .body(scheduleService.updateSchedule(scheduleId, updateScheduleReqDto));
     }
 
     @DeleteMapping("/{scheduleId}")

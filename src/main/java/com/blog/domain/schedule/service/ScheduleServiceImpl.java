@@ -62,12 +62,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleResDto updateSchedule(UpdateScheduleReqDto updateScheduleReqDto) {
+    public ScheduleResDto updateSchedule(Long scheduleId, UpdateScheduleReqDto updateScheduleReqDto) {
         User loginUser = getLoginUser();
-        Space space = spaceRepository.findById(updateScheduleReqDto.getSpaceId())
+        Space space = spaceRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleUserNotFoundException(SCHEDULE_SPACE_NOT_FOUND.getMessage()));
 
-        Schedule schedule = scheduleRepository.findById(updateScheduleReqDto.getScheduleId())
+        Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ScheduleUserNotFoundException(SCHEDULE_NOT_FOUND.getMessage()));
 
         checkMemberAuthority(space, loginUser);
