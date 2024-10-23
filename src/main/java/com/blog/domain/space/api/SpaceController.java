@@ -21,10 +21,10 @@ public class SpaceController {
                 .body(spaceService.addSpace(spaceReqDto));
     }
 
-    @PutMapping("")
-    public ResponseEntity<SpaceResDto> updateSpace(@RequestBody UpdateSpaceReqDto updateSpaceReqDto){
+    @PutMapping("/{spaceId}")
+    public ResponseEntity<SpaceResDto> updateSpace(@PathVariable Long spaceId, @RequestBody UpdateSpaceReqDto updateSpaceReqDto) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(spaceService.updateSpace(updateSpaceReqDto));
+                .body(spaceService.updateSpace(spaceId, updateSpaceReqDto));
     }
 
     @GetMapping("/{spaceId}")

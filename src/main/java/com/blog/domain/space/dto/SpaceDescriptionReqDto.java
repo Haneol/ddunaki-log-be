@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class SpaceDescriptionReqDto {
-    private Long spaceId;
     private String description;
 }

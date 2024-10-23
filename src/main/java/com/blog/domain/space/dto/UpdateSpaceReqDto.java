@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class UpdateSpaceReqDto {
-    private Long spaceId;
     private String spaceName;
     private LocalDate startDate;
     private LocalDate endDate;
