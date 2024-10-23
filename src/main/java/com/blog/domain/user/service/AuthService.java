@@ -1,6 +1,8 @@
 package com.blog.domain.user.service;
 
 
+import com.blog.domain.user.config.exception.BusinessLogicException;
+import com.blog.domain.user.config.exception.ExceptionCode;
 import com.blog.domain.user.domain.User;
 import com.blog.domain.user.dto.LoginUserDto;
 import com.blog.domain.user.dto.RegisterUserDto;
@@ -19,6 +21,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+
     public AuthService(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
@@ -28,6 +31,12 @@ public class AuthService {
 
 
     public User signup(RegisterUserDto input) {
+        if(!isValidEmail(input.getEmail())) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_EMAIL);
+        }
+        if(!isValidPw(input.getPw())) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_PW);
+        }
         User user = new User()
                 .setNickName(input.getNickName())
                 .setEmail(input.getEmail())
@@ -46,6 +55,16 @@ public class AuthService {
         );
         log.info("인증완료");
         return userRepository.findByEmail(input.getEmail()).orElseThrow();
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
+    }
+
+    private boolean isValidPw(String pw) {
+        String pwRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$";
+        return pw.matches(pwRegex);
     }
 
 }

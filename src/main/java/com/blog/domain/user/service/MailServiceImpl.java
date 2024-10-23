@@ -46,13 +46,14 @@ public class MailServiceImpl implements MailService{
         createNumber();
         MimeMessage message = mailSender.createMimeMessage();
         try {
+            String num = ""+authNum;
             message.setFrom(username);
             message.setRecipients(MimeMessage.RecipientType.TO, email);
             message.setSubject("이메일 인증");
             String body = "";
             body += "<h3>" + "안녕하세요. 여행 일정 공유 블로그 플랫폼 떠나기록 입니다." + "</h3>";
             body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
-            body += "<h1>" + authNum + "</h1>";
+            body += "<h1>" + num + "</h1>";
             body += "<h3>" + "감사합니다." + "</h3>";
             message.setText(body,"UTF-8","html");
             log.info("메일 내용 생성됨");

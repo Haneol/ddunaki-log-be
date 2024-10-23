@@ -23,43 +23,41 @@ public class MailController {
     private final MailService mailService;
     private final EmailAndCodeService emailAndCodeService;
     private EmailAndCodeRepository emailAndCodeRepository;
-    private int count;
+    private EmailAndCode emailAndCode;
+    private int authNum;
+    private int num;
     @Autowired
-    public MailController(MailServiceImpl mailService, EmailAndCode emailAndCode, EmailAndCodeService emailAndCodeService, EmailAndCodeRepository emailAndCodeRepository) {
+    public MailController(MailServiceImpl mailService, EmailAndCodeService emailAndCodeService, EmailAndCodeRepository emailAndCodeRepository) {
         this.mailService = mailService;
         this.emailAndCodeService = emailAndCodeService;
         this.emailAndCodeRepository = emailAndCodeRepository;
     }
-    private int number;
 
     @PostMapping("/send-email-code")
     public ResponseEntity<String> sendMail(@RequestParam("sendTo") String sendTo) {
         log.info("메일 보내기 시도");
+
+
         if (sendTo != null && !sendTo.trim().isEmpty()) {
-            int authNum = mailService.sendMail(sendTo);
-            EmailAndCode emailAndCode = new EmailAndCode();
-            emailAndCode.setMail(sendTo);
-            emailAndCode.setAuthNum(authNum);
-            emailAndCodeRepository.save(emailAndCode);
-            if(emailAndCode.getAuthNum()!=0) {
-                log.info(emailAndCode.getAuthNum()+" auth number 값임");
-                log.info("email과 code 저장됨");
-                log.info(emailAndCodeRepository.count());
-                count++;
-            }
+            authNum = mailService.sendMail(sendTo);
             return ResponseEntity.ok("Mail Sent successfully. Please check your mail.");
         } else {
             return ResponseEntity.badRequest().body("Please send username");
         }
     }
 
+
     @GetMapping("/check-email-code")
-    public ResponseEntity<?> mailCheck(@RequestParam String mail, @RequestParam int authNum) {
+    public ResponseEntity<?> mailCheck(@RequestParam String mail, @RequestParam int inputNum) {
         log.info("이메일 인증코드 검증 중..");
-        if (count>0){
+        num = emailAndCodeService.verify(mail, inputNum);
+        log.info("검증 결과값임 "+num);
+
+        if (num == authNum) {
             log.info("이메일 인증 성공");
             return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
+        }
+        else {
             log.info("이메일 인증 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

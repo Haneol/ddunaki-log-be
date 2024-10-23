@@ -13,17 +13,12 @@ import java.util.Optional;
 public class EmailAndCodeService {
     @Autowired
     private EmailAndCodeRepository emailAndCodeRepository;
-    public boolean verify(String email, int authNum) {
-
-        Optional<EmailAndCode> codeOptional = emailAndCodeRepository.findByEmail(email);
-        if (codeOptional.isPresent()) {
-            log.info("인증코드 존재함");
-            EmailAndCode emailAndCode = codeOptional.get();
-            return emailAndCode.getAuthNum() == authNum;
-        }
-        else {
-            log.info("테이블에 값이 없음");
-        }
-        return false;
+    public EmailAndCode emailAndCode;
+    public int verify(String sendTo, int authNum) {
+        emailAndCode = new EmailAndCode();
+        emailAndCode.setMail(sendTo);
+        emailAndCode.setAuthNum(authNum);
+        emailAndCodeRepository.save(emailAndCode);
+        return authNum;
     }
 }

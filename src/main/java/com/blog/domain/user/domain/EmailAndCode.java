@@ -2,19 +2,17 @@ package com.blog.domain.user.domain;
 
 import lombok.Generated;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Component
 public class EmailAndCode {
     @Id
-    @Generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
     public String email;
