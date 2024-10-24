@@ -16,7 +16,7 @@ public class SpaceController {
     private final SpaceService spaceService;
 
     @PostMapping("")
-    public ResponseEntity<SpaceResDto> addSpace(@RequestBody SpaceReqDto spaceReqDto){
+    public ResponseEntity<SpaceResDto> addSpace(@RequestBody SpaceReqDto spaceReqDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(spaceService.addSpace(spaceReqDto));
     }
@@ -28,13 +28,13 @@ public class SpaceController {
     }
 
     @GetMapping("/{spaceId}")
-    public ResponseEntity<SpaceResDto> findOneSpace(@PathVariable Long spaceId){
+    public ResponseEntity<SpaceResDto> findOneSpace(@PathVariable Long spaceId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(spaceService.findOneSpace(spaceId));
     }
 
     @DeleteMapping("/{spaceId}")
-    public ResponseEntity<MessageDto> deleteSpace(@PathVariable Long spaceId){
+    public ResponseEntity<MessageDto> deleteSpace(@PathVariable Long spaceId) {
         spaceService.deleteSpace(spaceId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(MessageDto.msg(SpaceResponseMessage.DELETE_SPACE.getMessage()
@@ -42,21 +42,21 @@ public class SpaceController {
     }
 
     @PostMapping("/member")
-    public ResponseEntity<SpaceMembersResDto> addMember(@RequestBody SpaceMembersReqDto spaceMembersReqDto){
+    public ResponseEntity<SpaceMembersResDto> addMember(@RequestBody AddMemberReqDto addMemberReqDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(spaceService.addMember(spaceMembersReqDto));
+                .body(spaceService.addMembers(addMemberReqDto));
     }
 
     //참여하고 있는 멤버 조회
     @GetMapping("/member/{spaceId}")
-    public ResponseEntity<SpaceMembersResDto> findAllMember(@PathVariable Long spaceId){
+    public ResponseEntity<SpaceMembersResDto> findAllMember(@PathVariable Long spaceId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(spaceService.findMembers(spaceId));
     }
 
     @DeleteMapping("/member")
-    public ResponseEntity<MessageDto> deleteMember(@RequestBody SpaceMembersReqDto spaceMembersReqDto){
-        spaceService.deleteMember(spaceMembersReqDto);
+    public ResponseEntity<MessageDto> deleteMember(@RequestBody DeleteMemberReqDto deleteSpaceMemberReqDto) {
+        spaceService.deleteMember(deleteSpaceMemberReqDto);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(MessageDto.msg(SpaceResponseMessage.DELETE_MEMBER.getMessage()
                 ));
