@@ -26,7 +26,7 @@ public class Posting extends BaseEntity {
     private Long postingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer")
+    @JoinColumn(name = "user_id")
     private User writer;
 
     @Column(nullable = false)
@@ -42,7 +42,7 @@ public class Posting extends BaseEntity {
 
     private PostingAccessLevel accessLevel;
 
-    private Integer commentCnt;
+    private int commentCnt;
 
     private String mainImgUrl;
 
