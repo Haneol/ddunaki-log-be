@@ -15,7 +15,7 @@ public class MemberDto {
     public static MemberDto entityToDto(User user) {
         return MemberDto.builder()
                 .userId(user.getUserId())
-                .nickname(user.getNickname())
+                .nickname(user.getNickName())
                 .profile(user.getProfile())
                 .build();
     }
