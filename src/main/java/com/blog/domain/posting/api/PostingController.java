@@ -8,6 +8,7 @@ import com.blog.domain.posting.dto.UpdatePostingReqDto;
 import com.blog.domain.posting.service.PostingService;
 import com.blog.global.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,14 +52,15 @@ public class PostingController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<PostingResDto>> findAllSearch(
+    public ResponseEntity<Page<PostingResDto>> findAllSearch(
             @RequestParam(required = false) String writerNickname,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String nationCode,
-            @RequestParam(required = false) String cityCode) {
-
+            @RequestParam(required = false) String cityCode,
+            @RequestParam(defaultValue = "0") int page  // 페이지 번호 기본값 0
+    ) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(postingService.findAllSearch(writerNickname, title, nationCode, cityCode));
+                .body(postingService.findAllSearch(writerNickname, title, nationCode, cityCode, page));
     }
 
     @GetMapping("/space/{spaceId}")

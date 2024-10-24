@@ -19,6 +19,10 @@ import com.blog.domain.user.repository.UserRepository;
 import com.blog.global.exception.ForbiddenException;
 import com.blog.global.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -121,30 +125,37 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
-    public List<PostingResDto> findAllSearch(String writerNickName, String title, String nationCode, String cityCode) {
+    public Page<PostingResDto> findAllSearch(String writerNickName, String title, String nationCode, String cityCode, int page) {
         User loginUser = getLoginUser();
+        // 20개씩 페이지네이션
+        Pageable pageable = PageRequest.of(page, 20);
 
         // 모든 조건이 null이면 전체 리스트 반환
         if (writerNickName == null && title == null && nationCode == null && cityCode == null) {
-            return postingRepository.findAll().stream()
-                    .filter(posting -> checkPostingAuthority(posting.getSpace(), loginUser, posting))  // 권한 확인
-                    .map(PostingResDto::entityToResDto)
-                    .collect(Collectors.toList());
+            return new PageImpl<>(
+                    postingRepository.findAll(pageable).stream()
+                            .filter(posting -> checkPostingAuthority(posting.getSpace(), loginUser, posting))  // 권한 확인
+                            .map(PostingResDto::entityToResDto)
+                            .collect(Collectors.toList()), pageable, postingRepository.count());
         }
 
-        // 조건에 맞는 게시물을 검색
-        List<Posting> postings = postingRepository.findByWriter_NickNameAndTitleContainingAndSpace_NationCodeAndSpace_CityCode(
+
+        // 조건에 맞는 게시물을 검색 (페이지네이션 적용)
+        Page<Posting> postings = postingRepository.findByWriter_NickNameContainingAndTitleContainingAndSpace_NationCodeContainingAndSpace_CityCodeContaining(
                 writerNickName != null ? writerNickName : "",
                 title != null ? title : "",
                 nationCode != null ? nationCode : "",
-                cityCode != null ? cityCode : ""
+                cityCode != null ? cityCode : "",
+                pageable
         );
 
-        // 권한이 있는 게시물만 필터링
-        return postings.stream()
+        // 권한이 있는 게시물만 필터링 후 페이지로 반환
+        List<PostingResDto> filteredPostings = postings.stream()
                 .filter(posting -> checkPostingAuthority(posting.getSpace(), loginUser, posting))  // 권한이 있는 게시물만 필터링
                 .map(PostingResDto::entityToResDto)
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(filteredPostings, pageable, postings.getTotalElements());
     }
 
     @Override
