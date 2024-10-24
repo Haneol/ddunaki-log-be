@@ -58,6 +58,26 @@ public class User implements UserDetails {
         return this;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
     public User setPw(String pw) {
         this.pw = pw;
         return this;
