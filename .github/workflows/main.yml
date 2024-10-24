@@ -2,9 +2,7 @@ name: Spring Boot CI/CD to Oracle Cloud
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 jobs:
   build-and-deploy:
