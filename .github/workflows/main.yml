@@ -68,6 +68,8 @@ jobs:
         host: ${{ secrets.ORACLE_CLOUD_HOST }}
         username: ${{ secrets.ORACLE_CLOUD_USER }}
         key: ${{ secrets.ORACLE_CLOUD_SSH_KEY }}
+        command_timeout: "20m"   # 타임아웃 설정 추가
+        script_stop: true       # 에러 발생 시 즉시 중단
         script: |
           # 환경 변수 설정
           export DB_URL="${{ secrets.DB_URL }}"
@@ -80,7 +82,10 @@ jobs:
           export AWS_SECRET_KEY="${{ secrets.AWS_SECRET_KEY }}"
           
           # 기존 프로세스 종료
-          pid=$(pgrep -f email-sender) && kill -9 $pid || true
+          if pgrep -f email-sender; then
+            pkill -f email-sender || true
+            sleep 10  # 프로세스가 완전히 종료될 때까지 대기
+          fi
           
           # 새로운 jar 파일 실행
           cd ~/app
