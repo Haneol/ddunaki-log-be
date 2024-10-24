@@ -1,6 +1,6 @@
 package com.blog.domain.user.domain;
 
-import lombok.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -18,7 +19,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column(nullable = false, length=100)
+    @Column(nullable = false, length = 100)
     private String email;
 
     @Column(nullable = false)
@@ -46,14 +47,17 @@ public class User implements UserDetails {
     public void addRole(UserRole userRole) {
         this.role = role;
     }
+
     public User setId(long userId) {
         this.userId = userId;
         return this;
     }
+
     public void setEmailAndCode(EmailAndCode emailAndCode) {
         this.emailAndCode = emailAndCode;
         emailAndCode.setUser(this);
     }
+
     public User setNickName(String nickName) {
         this.nickName = nickName;
         return this;
@@ -120,6 +124,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
     @Override
     public String toString() {
         return "User{" +

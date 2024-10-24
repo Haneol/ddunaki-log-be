@@ -5,9 +5,9 @@ import com.blog.domain.space.domain.Space;
 import com.blog.domain.space.dto.*;
 import com.blog.domain.space.exception.SpaceNotFoundException;
 import com.blog.domain.space.exception.SpaceUserNotFoundException;
-import com.blog.domain.user.dao.UserRepository;
 import com.blog.domain.user.domain.User;
-import com.blog.domain.user.domain.UserType;
+import com.blog.domain.user.domain.UserRole;
+import com.blog.domain.user.repository.UserRepository;
 import com.blog.global.exception.ForbiddenException;
 import com.blog.global.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ public class SpaceServiceImpl implements SpaceService {
 
     private final SpaceRepository spaceRepository;
     private final UserRepository userRepository;
+
     private final SecurityUtils securityUtils;
 
     private User getLoginUser() {
@@ -48,7 +49,7 @@ public class SpaceServiceImpl implements SpaceService {
     }
 
     private void checkAdminAuthority(User user) {
-        if (!user.getUserType().equals(UserType.ROLE_ADMIN)) {
+        if (!user.getRole().equals(UserRole.ADMIN)) {
             throw new ForbiddenException();
         }
     }

@@ -7,5 +7,6 @@ import java.util.stream.Stream;
 
 @Getter
 public enum UserRole {
+        ADMIN,
         MEMBER;
 }
