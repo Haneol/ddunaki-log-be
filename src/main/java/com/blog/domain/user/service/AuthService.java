@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Log4j2
 @Service
@@ -30,6 +32,11 @@ public class AuthService {
         this.profileService = profileService;
     }
 
+    public boolean withdrawl(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        optionalUser.ifPresent(userRepository::delete);
+        return optionalUser.isPresent();
+    }
 
     public User signup(RegisterUserDto input) {
         if(!isValidEmail(input.getEmail())) {
@@ -46,6 +53,7 @@ public class AuthService {
         log.info("sign up finish");
         return userRepository.save(user);
     }
+
 
     public User authenticate(LoginUserDto input) {
         log.info("인증실행");

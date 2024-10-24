@@ -44,3 +44,5 @@ bin/
 
 ### mailSender ###
 src/main/resources/application.yml
+
+**/application-secret.yml
