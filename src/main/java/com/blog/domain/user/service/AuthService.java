@@ -30,6 +30,15 @@ public class AuthService {
         this.profileService = profileService;
     }
 
+    public boolean withdrawl(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException(ExceptionCode.NO_EMAIL.getMessage()));
+        if (user!=null) {
+            userRepository.delete(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public User signup(RegisterUserDto input) {
         if(!isValidEmail(input.getEmail())) {
@@ -46,6 +55,7 @@ public class AuthService {
         log.info("sign up finish");
         return userRepository.save(user);
     }
+
 
     public User authenticate(LoginUserDto input) {
         log.info("인증실행");
