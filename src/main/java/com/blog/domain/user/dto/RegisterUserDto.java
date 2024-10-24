@@ -1,8 +1,5 @@
 package com.blog.domain.user.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class RegisterUserDto {
     private String email;
     private String pw;

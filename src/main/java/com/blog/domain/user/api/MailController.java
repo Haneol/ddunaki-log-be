@@ -5,15 +5,12 @@ import com.blog.domain.user.repository.EmailAndCodeRepository;
 import com.blog.domain.user.service.EmailAndCodeService;
 import com.blog.domain.user.service.MailService;
 import com.blog.domain.user.service.MailServiceImpl;
-import com.blog.domain.user.domain.EmailAndCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +23,7 @@ public class MailController {
     private EmailAndCode emailAndCode;
     private int authNum;
     private int num;
+
     @Autowired
     public MailController(MailServiceImpl mailService, EmailAndCodeService emailAndCodeService, EmailAndCodeRepository emailAndCodeRepository) {
         this.mailService = mailService;
@@ -46,10 +44,10 @@ public class MailController {
     }
 
 
-    @GetMapping("/check-email-code")
-    public ResponseEntity<?> mailCheck(@RequestParam String mail, @RequestParam int inputNum) {
+@PostMapping("/check-email-code")
+    public ResponseEntity<?> mailCheck(@RequestParam("inputNum") int inputNum) {
         log.info("이메일 인증코드 검증 중..");
-        num = emailAndCodeService.verify(mail, inputNum);
+        num = emailAndCodeService.verify(inputNum);
         if (num == authNum) {
             log.info("이메일 인증 성공");
             return ResponseEntity.status(HttpStatus.OK).build();

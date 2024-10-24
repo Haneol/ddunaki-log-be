@@ -1,8 +1,7 @@
 package com.blog.domain.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.stream.Stream;
 
 @Getter

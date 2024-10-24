@@ -4,15 +4,12 @@ import com.blog.domain.user.config.exception.BusinessLogicException;
 import com.blog.domain.user.config.exception.ExceptionCode;
 
 import com.blog.domain.user.domain.User;
-import com.blog.domain.user.repository.EmailAndCodeRepository;
 import com.blog.domain.user.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.blog.domain.user.config.exception.BusinessLogicException;
-import com.blog.domain.user.config.exception.ExceptionCode;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Optional;

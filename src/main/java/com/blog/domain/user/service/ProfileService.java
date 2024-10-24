@@ -1,7 +1,5 @@
 package com.blog.domain.user.service;
 
-import com.blog.domain.user.config.exception.BusinessLogicException;
-import com.blog.domain.user.config.exception.ExceptionCode;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +23,19 @@ public class ProfileService {
 
     public String getRandomUrl(String input) {
         try {
+            if (input == null || input.isEmpty()) {
+                throw new IllegalArgumentException("Input cannot be null or empty");
+            }
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
             int hashCode = Arrays.hashCode(hashBytes);
             int index = Math.abs(hashCode) % urlList.size();
+            System.out.println("index"+ index);
             return urlList.get(index);
         } catch (NoSuchAlgorithmException e) {
-            throw new BusinessLogicException(ExceptionCode.NO_SUCH_ALGORITHM);
+            throw new RuntimeException("SHA-256 algorithm not found", e);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while generating URL", e);
         }
     }
 }
