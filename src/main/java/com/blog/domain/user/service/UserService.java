@@ -2,11 +2,9 @@ package com.blog.domain.user.service;
 
 import com.blog.domain.user.config.exception.ExceptionCode;
 import com.blog.domain.user.domain.User;
-import com.blog.domain.user.dto.UpdateUserNickNameDto;
 import com.blog.domain.user.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,19 +18,19 @@ public class UserService {
         return false;
     }
 
-    public void updateNickName(UpdateUserNickNameDto nickNameDto) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            User user = userRepository.findByEmail(username).orElseThrow(()->new RuntimeException(ExceptionCode.NO_EMAIL.getMessage()));
+    public boolean updateNickName(String username, String nickname) {
+
+        if (username != null) {
+            log.info("username: " + username);
+            User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException(ExceptionCode.NO_EMAIL.getMessage()));
 
             if (user != null) {
-                user.setNickName(nickNameDto.getNickName());
+                user.setNickName(nickname);
                 userRepository.save(user);
-            }
-            else {
-                throw new RuntimeException();
+                log.info("변경된 닉네임 저장됨");
+                return true;
             }
         }
+        return false;
     }
 }
