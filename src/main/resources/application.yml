@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: application-secret.yml
   jpa:
     properties:
       hibernate:
@@ -20,12 +22,16 @@ spring:
     username: sa
     hikari:
       jdbc-url: jdbc:h2:tcp://localhost/~/test
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
   application:
     name: email-sender
   mail:
     host: smtp.gmail.com
-    username: nevertheless113@gmail.com
-    password: urhuscpylknauzey
+    username: ${spring.mail.username}
+    password: ${spring.mail.password}
     port: 465
     properties:
       mail:
@@ -47,5 +53,5 @@ spring:
 
 security:
   jwt:
-    secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    secret-key: ${jwt.secret-key}
     expiration-time: 3600000
