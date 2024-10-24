@@ -44,8 +44,7 @@ public class MailController {
     }
 
 
-
-    @PostMapping("/check-email-code")
+@PostMapping("/check-email-code")
     public ResponseEntity<?> mailCheck(@RequestParam("inputNum") int inputNum) {
         log.info("이메일 인증코드 검증 중..");
         num = emailAndCodeService.verify(inputNum);

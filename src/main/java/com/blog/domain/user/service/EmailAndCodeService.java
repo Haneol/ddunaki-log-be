@@ -14,7 +14,6 @@ public class EmailAndCodeService {
     public EmailAndCode emailAndCode;
     public int verify(int authNum) {
         emailAndCode = new EmailAndCode();
-//        emailAndCode.setMail(sendTo);
         emailAndCode.setAuthNum(authNum);
         emailAndCodeRepository.save(emailAndCode);
         return authNum;

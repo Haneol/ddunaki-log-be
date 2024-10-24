@@ -8,8 +8,8 @@ import com.blog.domain.schedule.dto.UpdateScheduleReqDto;
 import com.blog.domain.schedule.exception.ScheduleUserNotFoundException;
 import com.blog.domain.space.dao.SpaceRepository;
 import com.blog.domain.space.domain.Space;
-import com.blog.domain.user.dao.UserRepository;
 import com.blog.domain.user.domain.User;
+import com.blog.domain.user.repository.UserRepository;
 import com.blog.global.exception.ForbiddenException;
 import com.blog.global.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +72,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         checkMemberAuthority(space, loginUser);
 
-        schedule.update(updateScheduleReqDto.getSpot(),updateScheduleReqDto.getMemo(),updateScheduleReqDto.getDay());
+        schedule.update(updateScheduleReqDto.getSpot(), updateScheduleReqDto.getMemo(), updateScheduleReqDto.getDay());
 
         scheduleRepository.save(schedule);
 

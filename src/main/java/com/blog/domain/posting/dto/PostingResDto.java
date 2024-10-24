@@ -26,7 +26,7 @@ public class PostingResDto {
     public static PostingResDto entityToResDto(Posting posting) {
         return PostingResDto.builder()
                 .postingId(posting.getPostingId())
-                .writerNickname(posting.getWriter().getNickname())
+                .writerNickname(posting.getWriter().getNickName())
                 .title(posting.getTitle())
                 .content(posting.getContent())  // Markdown 형식의 content
                 .accessLevel(posting.getAccessLevel())
