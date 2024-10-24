@@ -6,11 +6,11 @@ spring:
     path: /h2-console
     enabled: true
   datasource:
-    driver-class-name: org.h2.Driver
-    password: 1234
-    username: sa
-    hikari:
-      jdbc-url: jdbc:h2:~/local
+      driver-class-name: org.h2.Driver
+      password: ''
+      username: sa
+      hikari:
+        jdbc-url: jdbc:h2:tcp://localhost/~/test
 
   application:
     name: email-sender
@@ -30,8 +30,6 @@ spring:
           timeout: 5000
           writetimeout: 5000
     auth-code-expiration-millis: 1800000
-
-
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
