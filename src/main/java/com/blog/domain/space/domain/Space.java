@@ -36,8 +36,6 @@ public class Space {
 
     private String description;
 
-    //    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<User> members = new ArrayList<>();
     @ManyToMany
     @JoinTable(
             name = "space_members",
