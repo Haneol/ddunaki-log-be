@@ -121,11 +121,11 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
-    public List<PostingResDto> findAllSearch(String writerNickname, String title, String nationCode, String cityCode) {
+    public List<PostingResDto> findAllSearch(String writerNickName, String title, String nationCode, String cityCode) {
         User loginUser = getLoginUser();
 
         // 모든 조건이 null이면 전체 리스트 반환
-        if (writerNickname == null && title == null && nationCode == null && cityCode == null) {
+        if (writerNickName == null && title == null && nationCode == null && cityCode == null) {
             return postingRepository.findAll().stream()
                     .filter(posting -> checkPostingAuthority(posting.getSpace(), loginUser, posting))  // 권한 확인
                     .map(PostingResDto::entityToResDto)
@@ -133,8 +133,8 @@ public class PostingServiceImpl implements PostingService {
         }
 
         // 조건에 맞는 게시물을 검색
-        List<Posting> postings = postingRepository.findByWriter_NicknameAndTitleContainingAndSpace_NationCodeAndSpace_CityCode(
-                writerNickname != null ? writerNickname : "",
+        List<Posting> postings = postingRepository.findByWriter_NickNameAndTitleContainingAndSpace_NationCodeAndSpace_CityCode(
+                writerNickName != null ? writerNickName : "",
                 title != null ? title : "",
                 nationCode != null ? nationCode : "",
                 cityCode != null ? cityCode : ""
@@ -161,7 +161,7 @@ public class PostingServiceImpl implements PostingService {
     public List<PostingResDto> findAllPostingBySpaceId(Long spaceId) {
         User loginUser = getLoginUser();
 
-        List<Posting> postings = postingRepository.findAllBySpaceId(spaceId);
+        List<Posting> postings = postingRepository.findAllBySpace_SpaceId(spaceId);
 
         // 권한이 있는 게시물만 필터링
         return postings.stream()

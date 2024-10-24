@@ -22,7 +22,7 @@ public class Space {
     private Long spaceId;
 
     @OneToOne
-    @JoinColumn(name = "LEADER", referencedColumnName = "USER_ID")
+    @JoinColumn(name = "leader", referencedColumnName = "user_id")
     private User leader;
 
     @Column(nullable = false)
@@ -36,8 +36,16 @@ public class Space {
 
     private String description;
 
-    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    @OneToMany(mappedBy = "space", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<User> members = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "space_members",
+            joinColumns = @JoinColumn(name = "space_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> members = new ArrayList<>();
+
 
     //null 가능
     private String nationCode;
@@ -66,7 +74,7 @@ public class Space {
     }
 
     public void update(String spaceName, LocalDate startDate, LocalDate endDate, String description,
-                       String nationCode, String cityCode, Integer maxMembers){
+                       String nationCode, String cityCode, Integer maxMembers) {
         this.spaceName = spaceName;
         this.startDate = startDate;
         this.endDate = endDate;

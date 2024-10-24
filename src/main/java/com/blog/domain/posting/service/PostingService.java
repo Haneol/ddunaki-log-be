@@ -15,7 +15,7 @@ public interface PostingService {
     void deletePosting(Long postingId);
 
     //작성자 닉네임, 게시물 제목, 국가 코드 및 도시 코드 기반 검색
-    List<PostingResDto> findAllSearch (String writerNickname, String title, String nationCode, String cityCode );
+    List<PostingResDto> findAllSearch (String writerNickName, String title, String nationCode, String cityCode );
 
     PostingTitleResDto findPostingTitle(Long postingId);
 

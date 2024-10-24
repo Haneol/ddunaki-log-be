@@ -2,16 +2,24 @@ server:
   port: 8080
 
 spring:
-  h2:
-    path: /h2-console
-    enabled: true
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
   datasource:
     driver-class-name: org.h2.Driver
-    password: 1234
+    password: ''
     username: sa
     hikari:
-      jdbc-url: jdbc:h2:~/local
-
+      jdbc-url: jdbc:h2:tcp://localhost/~/test
   application:
     name: email-sender
   mail:
@@ -31,12 +39,6 @@ spring:
           writetimeout: 5000
     auth-code-expiration-millis: 1800000
 
-
-
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create
   logging:
     level:
       'org.hibernate.SQL': debug
