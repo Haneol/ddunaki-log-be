@@ -7,6 +7,7 @@ import com.blog.domain.user.dto.RegisterUserDto;
 import com.blog.domain.user.service.AuthService;
 import com.blog.domain.user.service.JwtService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,14 @@ public class AuthController {
     }
 
     @PostMapping("/user/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authService.signup(registerUserDto);
-        return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
+        try {
+            User registeredUser = authService.signup(registerUserDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("회원가입 성공", HttpStatus.CREATED);
     }
 
     @PostMapping("/user/login")
