@@ -21,7 +21,7 @@ public class CommentResDto {
         return CommentResDto.builder()
                 .commentId(comment.getCommentId())
                 .postingId(comment.getPosting().getPostingId())
-                .writerNickname(comment.getWriter().getNickname())
+                .writerNickname(comment.getWriter().getNickName())
                 .writerEmail(comment.getWriter().getEmail())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
