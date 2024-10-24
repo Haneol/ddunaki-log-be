@@ -45,13 +45,26 @@ spring:
           writetimeout: 5000
     auth-code-expiration-millis: 1800000
 
-  logging:
-    level:
-      'org.hibernate.SQL': debug
-      'org.hibernate.orm.jdbc.bind': trace
-      'org.springframework.security.web': trace
+logging:
+  level:
+    'org.hibernate.SQL': debug
+    'org.hibernate.orm.jdbc.bind': trace
+    'org.springframework.security.web': trace
 
 security:
   jwt:
     secret-key: ${jwt.secret-key}
     expiration-time: 3600000
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${cloud.aws.credentials.accessKey}
+      secretKey: ${cloud.aws.credentials.secretKey}
+    s3:
+      bucket: autoever-blog
+      dir: image
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
