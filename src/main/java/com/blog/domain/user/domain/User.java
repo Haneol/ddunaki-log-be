@@ -28,6 +28,8 @@ public class User implements UserDetails {
     private String nickName;
 
     private UserRole role;
+
+    @Column(nullable = false)
     private String profile;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
@@ -64,6 +66,11 @@ public class User implements UserDetails {
 
     public User setEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    public User setProfile(String profile) {
+        this.profile = profile;
         return this;
     }
 

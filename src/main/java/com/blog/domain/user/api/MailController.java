@@ -37,7 +37,6 @@ public class MailController {
     public ResponseEntity<String> sendMail(@RequestParam("sendTo") String sendTo) {
         log.info("메일 보내기 시도");
 
-
         if (sendTo != null && !sendTo.trim().isEmpty()) {
             authNum = mailService.sendMail(sendTo);
             return ResponseEntity.ok("Mail Sent successfully. Please check your mail.");
@@ -51,8 +50,6 @@ public class MailController {
     public ResponseEntity<?> mailCheck(@RequestParam String mail, @RequestParam int inputNum) {
         log.info("이메일 인증코드 검증 중..");
         num = emailAndCodeService.verify(mail, inputNum);
-        log.info("검증 결과값임 "+num);
-
         if (num == authNum) {
             log.info("이메일 인증 성공");
             return ResponseEntity.status(HttpStatus.OK).build();

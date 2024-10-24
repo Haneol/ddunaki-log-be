@@ -21,12 +21,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
-
-    public AuthService(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserService userService) {
+    private final ProfileService profileService;
+    public AuthService(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserService userService, ProfileService profileService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder =passwordEncoder;
         this.userService = userService;
+        this.profileService = profileService;
     }
 
 
@@ -40,6 +41,7 @@ public class AuthService {
         User user = new User()
                 .setNickName(input.getNickName())
                 .setEmail(input.getEmail())
+                .setProfile(profileService.getRandomUrl(input.getNickName()))
                 .setPw(passwordEncoder.encode(input.getPw()));
         log.info("sign up finish");
         return userRepository.save(user);

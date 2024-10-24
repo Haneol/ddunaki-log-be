@@ -8,10 +8,7 @@ import com.blog.domain.user.service.AuthService;
 import com.blog.domain.user.service.JwtService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
 @RestController
@@ -24,7 +21,6 @@ public class AuthController {
         this.jwtService = jwtService;
         this.authService = authService;
     }
-
 
     @PostMapping("/user/signup")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
