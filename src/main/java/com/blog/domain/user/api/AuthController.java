@@ -7,6 +7,7 @@ import com.blog.domain.user.dto.RegisterUserDto;
 import com.blog.domain.user.service.AuthService;
 import com.blog.domain.user.service.JwtService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,11 +36,14 @@ public class AuthController {
     }
 
     @PostMapping("/user/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<?> authenticate(@RequestBody LoginUserDto loginUserDto) {
         User authenticatedUser = authService.authenticate(loginUserDto);
         log.info("실행됨?");
         String jwtToken =jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
-        return ResponseEntity.ok(loginResponse);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION,"Bearer " + jwtToken)
+                .header("Expires-In", String.valueOf(jwtService.getExpirationTime()))
+                .body("Login successful");
     }
 }
