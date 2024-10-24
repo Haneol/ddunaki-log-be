@@ -19,6 +19,7 @@ public class Space {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "space_id")
     private Long spaceId;
 
     @OneToOne
