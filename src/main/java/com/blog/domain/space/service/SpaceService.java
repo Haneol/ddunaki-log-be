@@ -25,9 +25,9 @@ public interface SpaceService {
 
     void deleteSpace(Long spaceId);
 
-    SpaceMembersResDto addMember(SpaceMembersReqDto spaceMembersReqDto);
+    SpaceMembersResDto addMembers(AddMemberReqDto addMemberReqDto);
 
-    SpaceMembersResDto deleteMember(SpaceMembersReqDto spaceMembersReqDto);
+    SpaceMembersResDto deleteMember(DeleteMemberReqDto deleteMemberReqDto);
 
     SpaceMembersResDto findMembers(Long spaceId);
 }

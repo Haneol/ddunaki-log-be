@@ -215,46 +215,50 @@ public class SpaceServiceImpl implements SpaceService {
     //유저 추가
     //유저가 max인원보다 많으면 에러
     @Override
-    public SpaceMembersResDto addMember(SpaceMembersReqDto spaceMembersReqDto) {
+    public SpaceMembersResDto addMembers(AddMemberReqDto addMemberReqDto) {
         User user = getLoginUser();
 
-        Space space = spaceRepository.findById(spaceMembersReqDto.getSpaceId())
+        Space space = spaceRepository.findById(addMemberReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
 
         checkMemberAuthority(space, user);
 
-        // 현재 멤버 수가 최대 멤버 수를 초과하지 않도록 체크
-        if (space.getMembers().size() >= space.getMaxMembers()) {
+        // 최대 멤버 수를 초과하지 않는지 확인
+        if (space.getMembers().size() + addMemberReqDto.getMemberIds().size() > space.getMaxMembers()) {
             throw new IllegalArgumentException(MEMBER_LIMIT_EXCEEDED.getMessage());
         }
 
-        // 추가하려는 유저 찾기
-        User newMember = userRepository.findById(spaceMembersReqDto.getUpdateMemberId())
-                .orElseThrow(() -> new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage()));
+        for (Long memberId : addMemberReqDto.getMemberIds()) {
+            // 멤버 존재 여부 확인
+            User newMember = userRepository.findById(memberId)
+                    .orElseThrow(() -> new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage()));
 
-        // 이미 멤버로 추가된 유저인지 확인
-        if (space.getMembers().contains(newMember)) {
-            throw new IllegalArgumentException(MEMBER_ALREADY_EXISTS.getMessage());
+            // 이미 멤버로 존재하는지 확인
+            if (space.getMembers().contains(newMember)) {
+                throw new IllegalArgumentException(MEMBER_ALREADY_EXISTS.getMessage());
+            }
+
+            space.addMember(newMember);
         }
 
-        space.addMember(newMember);
-
+        // 저장
         spaceRepository.save(space);
 
         return SpaceMembersResDto.entityToDto(space);
     }
 
+
     @Override
-    public SpaceMembersResDto deleteMember(SpaceMembersReqDto spaceMembersReqDto) {
+    public SpaceMembersResDto deleteMember(DeleteMemberReqDto deleteMemberReqDto) {
         User user = getLoginUser();
 
-        Space space = spaceRepository.findById(spaceMembersReqDto.getSpaceId())
+        Space space = spaceRepository.findById(deleteMemberReqDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(SPACE_NOT_FOUND.getMessage()));
 
         checkLeaderAuthority(space, user);
 
         // 강퇴할 유저 찾기
-        User outMember = userRepository.findById(spaceMembersReqDto.getUpdateMemberId())
+        User outMember = userRepository.findById(deleteMemberReqDto.getMemberId())
                 .orElseThrow(() -> new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage()));
 
         // 해당 유저가 현재 멤버 리스트에 있는지 확인

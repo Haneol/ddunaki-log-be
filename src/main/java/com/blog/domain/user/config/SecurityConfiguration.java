@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/h2-console").permitAll()
                         .antMatchers("/api/user/login").permitAll()
+                        .antMatchers("/api/upload").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

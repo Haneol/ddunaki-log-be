@@ -23,6 +23,7 @@ public class Posting extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "posting_id")
     private Long postingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
