@@ -15,6 +15,7 @@ public class PostingResDto {
     private final String writerNickname;
     private final String title;
     private final String content;
+    private final String profile;
     private final PostingAccessLevel accessLevel;
     private final Integer commentCnt;
     private final String mainImgUrl;
@@ -30,6 +31,7 @@ public class PostingResDto {
                 .title(posting.getTitle())
                 .content(posting.getContent())  // Markdown 형식의 content
                 .accessLevel(posting.getAccessLevel())
+                .profile(posting.getWriter().getProfile())
                 .commentCnt(posting.getCommentCnt())
                 .mainImgUrl(posting.getMainImgUrl())
                 .scheduleId(posting.getSchedule().getScheduleId())

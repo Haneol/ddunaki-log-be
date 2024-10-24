@@ -13,6 +13,7 @@ public class CommentResDto {
     private final Long commentId;
     private final String writerNickname;
     private final String writerEmail;
+    private final String profile;
     private final String content;
     private final LocalDate createdAt;
     private final LocalDate modifiedAt;
@@ -23,6 +24,7 @@ public class CommentResDto {
                 .postingId(comment.getPosting().getPostingId())
                 .writerNickname(comment.getWriter().getNickName())
                 .writerEmail(comment.getWriter().getEmail())
+                .profile(comment.getWriter().getProfile())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())
