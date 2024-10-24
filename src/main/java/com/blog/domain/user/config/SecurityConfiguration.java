@@ -34,7 +34,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("##############  security config ################");
         http
-                .cors().configurationSource(corsConfigurationSource())
+                .cors()
                 .and()
                 .authorizeHttpRequests(authz ->authz
                         .antMatchers("/api/**").permitAll()
