@@ -86,6 +86,9 @@ public class User implements UserDetails {
         return this;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
     public User setProfile(String profile) {
         this.profile = profile;
         return this;
