@@ -10,7 +10,7 @@ spring:
     password:
     username: sa
     hikari:
-      jdbc-url: jdbc:h2:tcp://localhost/~/test
+      jdbc-url: jdbc:h2:~/local
 
   application:
     name: email-sender
