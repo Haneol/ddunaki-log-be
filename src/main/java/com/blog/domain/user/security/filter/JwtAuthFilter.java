@@ -45,7 +45,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (path.startsWith("/api/user/")) {
             return true;
         }
-
+        if (path.startsWith("/api/")) {
+            return true;
+        }
 
         return false;
     }
