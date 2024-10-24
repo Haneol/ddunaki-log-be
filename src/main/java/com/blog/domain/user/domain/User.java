@@ -13,11 +13,10 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private long userId;
+    @Column(name="user_id")
+    private Long userId;
 
     @Column(nullable = false, length=100)
     private String email;
@@ -64,9 +63,6 @@ public class User implements UserDetails {
         return nickName;
     }
 
-    public long getUserId() {
-        return userId;
-    }
 
     public String getProfile() {
         return profile;
@@ -93,18 +89,6 @@ public class User implements UserDetails {
     public User setProfile(String profile) {
         this.profile = profile;
         return this;
-    }
-
-    public void changePw(String pw) {
-        this.pw = pw;
-    }
-
-    public void changeNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public void changeProfile(String profile) {
-        this.profile = profile;
     }
 
     @Override

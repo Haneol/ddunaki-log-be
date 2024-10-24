@@ -12,7 +12,9 @@ public enum ExceptionCode {
     UNABLE_TO_SEND_EMAIL(404, "메일을 전송할 수 없습니다."),
     FOLLOW_NOT_FOUND(404, "팔로우를 하지 않았습니다."),
     FOLLOW_EXISTS(404, "이미 팔로우 했습니다."),
-    NO_SUCH_ALGORITHM(400, "알고리즘을 찾을 수 없습니다.");
+    NO_SUCH_ALGORITHM(400, "알고리즘을 찾을 수 없습니다."),
+    INVALID_USER(403,"유효하지 않은 사용자입니다"),
+    NO_USER(404,"수정할 사용자를 찾을 수 없습니다");
     @Getter
     private final int status;
 

@@ -13,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Log4j2
 @Service
@@ -31,13 +33,9 @@ public class AuthService {
     }
 
     public boolean withdrawl(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException(ExceptionCode.NO_EMAIL.getMessage()));
-        if (user!=null) {
-            userRepository.delete(user);
-            return true;
-        } else {
-            return false;
-        }
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        optionalUser.ifPresent(userRepository::delete);
+        return optionalUser.isPresent();
     }
 
     public User signup(RegisterUserDto input) {

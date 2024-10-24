@@ -54,16 +54,16 @@ public class AuthController {
     }
 
     @PostMapping("/user")
-    public String userWithdrawl(Model model) {
+    public ResponseEntity<String>  userWithdrawl(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        log.info("userDetails: "+ username);
         boolean result = authService.withdrawl(username);
         if (result) {
-            return "redirect:/";
+            log.info("bye");
+            return ResponseEntity.ok("회원탈퇴 성공");
         } else {
             model.addAttribute("failed withdrawl", "회원탈퇴 실패");
-            return "/user";
+            return ResponseEntity.badRequest().body("회원탈퇴 실패");
         }
     }
 }
