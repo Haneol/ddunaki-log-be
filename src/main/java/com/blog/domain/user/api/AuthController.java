@@ -46,11 +46,15 @@ public class AuthController {
         User authenticatedUser = authService.authenticate(loginUserDto);
         log.info("실행됨?");
         String jwtToken =jwtService.generateToken(authenticatedUser);
-        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime())
+                .setUserId(authenticatedUser.getUserId())
+                .setNickName(authenticatedUser.getNickName())
+                .setEmail(authenticatedUser.getEmail())
+                .setProfile(authenticatedUser.getProfile());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION,"Bearer " + jwtToken)
                 .header("Expires-In", String.valueOf(jwtService.getExpirationTime()))
-                .body("Login successful");
+                .body(loginResponse);
     }
 
     @PostMapping("/user")
