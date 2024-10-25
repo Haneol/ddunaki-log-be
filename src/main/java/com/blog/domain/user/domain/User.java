@@ -78,6 +78,11 @@ public class User implements UserDetails {
         return role;
     }
 
+    public User setRole(UserRole role) {
+        this.role = role;
+        return this;
+    }
+
     public User setPw(String pw) {
         this.pw = pw;
         return this;
