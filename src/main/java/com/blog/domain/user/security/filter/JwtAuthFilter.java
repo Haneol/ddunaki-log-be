@@ -1,14 +1,12 @@
 package com.blog.domain.user.security.filter;
 
 import com.blog.domain.user.service.JwtService;
-import com.blog.domain.user.service.TokenBlacklistService;
 import lombok.extern.log4j.Log4j2;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +19,6 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @Component
 @Log4j2
@@ -29,27 +26,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private TokenBlacklistService tokenBlacklistService;
-    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService, HandlerExceptionResolver handlerExceptionResolver, TokenBlacklistService tokenBlacklistService) {
+
+    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService, HandlerExceptionResolver handlerExceptionResolver) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
-        this.tokenBlacklistService = tokenBlacklistService;
     }
+
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        String path = request.getRequestURI();
+//        log.info("check url" + path);
+//
+//        if (path.startsWith("/api/user/")) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getRequestURI();
-        log.info("check url" + path);
-
-        if (path.startsWith("/api/user/")) {
-            return true;
-        }
-        if (path.startsWith("/api/")) {
-            return true;
-        }
-
-        return false;
+        return true; // 모든 요청을 필터링하지 않음
     }
 
     @Override
@@ -58,16 +56,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("################do filter##################");
         log.info("################do filter##################");
         final String authHeader = request.getHeader("Authorization");
+
         try {
-            String token = extractToken(request);
-
-            if (token != null && tokenBlacklistService.isTokenBlacklisted(token)) {
-                log.info("Token is blacklisted");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Token is blacklisted");
-                return;
-            }
-
             if (authHeader == null) {
                 log.info("authHeader is null");
                 filterChain.doFilter(request, response);
@@ -96,13 +86,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             handlerExceptionResolver.resolveException(request, response, null ,exception);
         }
         filterChain.doFilter(request, response);
-    }
-
-    private String extractToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);
-        }
-        return null;
     }
 }
