@@ -31,7 +31,7 @@ logging:
 security:
   jwt:
     secret-key: ${jwt.secret-key}
-    expiration-time: 3600000
+    expiration-time: 86400000
 cloud:
   aws:
     credentials:
