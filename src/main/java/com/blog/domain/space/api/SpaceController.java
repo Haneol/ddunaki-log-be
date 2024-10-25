@@ -3,26 +3,31 @@ package com.blog.domain.space.api;
 import com.blog.domain.space.constant.SpaceResponseMessage;
 import com.blog.domain.space.dto.*;
 import com.blog.domain.space.service.SpaceService;
+import com.blog.domain.space.service.SpaceServiceImpl;
 import com.blog.global.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/space")
+@RequestMapping("/api/space")
 @RestController
 public class SpaceController {
     private final SpaceService spaceService;
-
+    private static final Logger logger = LoggerFactory.getLogger(SpaceServiceImpl.class);
     @PostMapping("")
     public ResponseEntity<SpaceResDto> addSpace(@RequestBody SpaceReqDto spaceReqDto) {
+        logger.info("addSpace 들어오니 ?: {}");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(spaceService.addSpace(spaceReqDto));
     }
 
     @PutMapping("/{spaceId}")
     public ResponseEntity<SpaceResDto> updateSpace(@PathVariable Long spaceId, @RequestBody UpdateSpaceReqDto updateSpaceReqDto) {
+        logger.info("addSpace 들어오니 ?: {}");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(spaceService.updateSpace(spaceId, updateSpaceReqDto));
     }

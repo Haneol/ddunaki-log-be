@@ -1,14 +1,16 @@
 package com.blog.domain.space.dto;
 
-import com.blog.domain.user.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SpaceReqDto {
 
     private Long leaderId;
@@ -16,7 +18,7 @@ public class SpaceReqDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-//    private List<Long> memberIds;
+    //    private List<Long> memberIds;
     private String nationCode;
     private String cityCode;
     private Integer maxMembers;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/posting")
+@RequestMapping("/api/posting")
 public class PostingController {
     private final PostingService postingService;
 
