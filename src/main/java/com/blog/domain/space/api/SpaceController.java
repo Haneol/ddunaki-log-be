@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping("/api/space")
 @RestController
@@ -20,14 +22,12 @@ public class SpaceController {
     private static final Logger logger = LoggerFactory.getLogger(SpaceServiceImpl.class);
     @PostMapping("")
     public ResponseEntity<SpaceResDto> addSpace(@RequestBody SpaceReqDto spaceReqDto) {
-        logger.info("addSpace 들어오니 ?: {}");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(spaceService.addSpace(spaceReqDto));
     }
 
     @PutMapping("/{spaceId}")
     public ResponseEntity<SpaceResDto> updateSpace(@PathVariable Long spaceId, @RequestBody UpdateSpaceReqDto updateSpaceReqDto) {
-        logger.info("addSpace 들어오니 ?: {}");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(spaceService.updateSpace(spaceId, updateSpaceReqDto));
     }
@@ -65,5 +65,12 @@ public class SpaceController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(MessageDto.msg(SpaceResponseMessage.DELETE_MEMBER.getMessage()
                 ));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<SpaceResDto>> findMySpaces() {
+        List<SpaceResDto> spaces = spaceService.findMySpaces();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(spaces);
     }
 }

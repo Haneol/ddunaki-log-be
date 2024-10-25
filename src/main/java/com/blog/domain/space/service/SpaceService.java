@@ -30,4 +30,6 @@ public interface SpaceService {
     SpaceMembersResDto deleteMember(DeleteMemberReqDto deleteMemberReqDto);
 
     SpaceMembersResDto findMembers(Long spaceId);
+
+    List<SpaceResDto> findMySpaces();
 }
