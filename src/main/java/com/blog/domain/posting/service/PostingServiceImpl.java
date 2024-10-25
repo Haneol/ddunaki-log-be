@@ -141,7 +141,7 @@ public class PostingServiceImpl implements PostingService {
 
 
         // 조건에 맞는 게시물을 검색 (페이지네이션 적용)
-        Page<Posting> postings = postingRepository.findByWriter_NickNameContainingAndTitleContainingAndSpace_NationCodeContainingAndSpace_CityCodeContaining(
+        Page<Posting> postings = postingRepository.findByWriter_NickNameContainingOrTitleContainingOrSpace_NationCodeContainingOrSpace_CityCodeContaining(
                 writerNickName != null ? writerNickName : "",
                 title != null ? title : "",
                 nationCode != null ? nationCode : "",
