@@ -5,6 +5,10 @@ import lombok.extern.log4j.Log4j2;
 public class LoginResponse {
     private String token;
     private long expiresIn;
+    private Long userId;
+    private String nickName;
+    private String email;
+    private String profile;
 
     public String getToken() {
         log.info("getToken");
@@ -12,7 +16,6 @@ public class LoginResponse {
     }
 
     public LoginResponse setToken(String token) {
-        log.info("setToken");
         this.token = token;
         return this;
     }
@@ -23,8 +26,43 @@ public class LoginResponse {
 
 
     public LoginResponse setExpiresIn(long expiresIn) {
-        log.info("setExpiresIn");
         this.expiresIn = expiresIn;
+        return this;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public LoginResponse setUserId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public LoginResponse setNickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LoginResponse setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public LoginResponse setProfile(String profile) {
+        this.profile = profile;
         return this;
     }
 

@@ -19,7 +19,6 @@ public class UserService {
     }
 
     public boolean updateNickName(String username, String nickname) {
-
         if (username != null) {
             log.info("username: " + username);
             User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException(ExceptionCode.NO_EMAIL.getMessage()));
