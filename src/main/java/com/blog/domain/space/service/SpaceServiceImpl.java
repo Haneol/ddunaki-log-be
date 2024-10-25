@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.blog.domain.schedule.constant.ScheduleExceptionMessage.NO_PERMISSION;
 import static com.blog.domain.space.constant.SpaceExceptionMessage.*;
@@ -286,4 +287,17 @@ public class SpaceServiceImpl implements SpaceService {
 
         return SpaceMembersResDto.entityToDto(space);
     }
+
+    @Override
+    public List<SpaceResDto> findMySpaces() {
+        User user = getLoginUser();
+
+        List<Space> spaces = spaceRepository.findByMembers_UserId(user.getUserId());
+
+        return spaces.stream()
+                .map(space -> SpaceResDto.entityToDto(space))
+                .collect(Collectors.toList());
+    }
+
 }
+
