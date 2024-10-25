@@ -16,6 +16,8 @@ public class PostingResDto {
     private final String title;
     private final String content;
     private final String profile;
+    private final String nationCode;
+    private final String cityCode;
     private final PostingAccessLevel accessLevel;
     private final Integer commentCnt;
     private final String mainImgUrl;
@@ -32,6 +34,8 @@ public class PostingResDto {
                 .content(posting.getContent())  // Markdown 형식의 content
                 .accessLevel(posting.getAccessLevel())
                 .profile(posting.getWriter().getProfile())
+                .nationCode(posting.getSpace().getNationCode())
+                .cityCode(posting.getSpace().getCityCode())
                 .commentCnt(posting.getCommentCnt())
                 .mainImgUrl(posting.getMainImgUrl())
                 .scheduleId(posting.getSchedule().getScheduleId())
