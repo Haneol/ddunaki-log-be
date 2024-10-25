@@ -39,8 +39,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authz ->authz
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/h2-console").permitAll()
-                        .antMatchers("/api/user/login").permitAll()
-                        .antMatchers("/api/upload").permitAll()
+                        // .antMatchers("/api/user/login").permitAll()
+                        // .antMatchers("/api/upload").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -50,12 +50,6 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider);
         return http.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .antMatchers("/resources/**", "/static/**", "/images/**");
     }
 
 //    @Bean
