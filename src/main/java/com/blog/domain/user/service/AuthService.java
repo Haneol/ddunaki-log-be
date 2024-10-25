@@ -4,6 +4,7 @@ package com.blog.domain.user.service;
 import com.blog.domain.user.config.exception.BusinessLogicException;
 import com.blog.domain.user.config.exception.ExceptionCode;
 import com.blog.domain.user.domain.User;
+import com.blog.domain.user.domain.UserRole;
 import com.blog.domain.user.dto.LoginUserDto;
 import com.blog.domain.user.dto.RegisterUserDto;
 import com.blog.domain.user.repository.UserRepository;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Log4j2
@@ -30,6 +33,11 @@ public class AuthService {
         this.profileService = profileService;
     }
 
+    public boolean withdrawl(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        optionalUser.ifPresent(userRepository::delete);
+        return optionalUser.isPresent();
+    }
 
     public User signup(RegisterUserDto input) {
         if(!isValidEmail(input.getEmail())) {
@@ -41,11 +49,13 @@ public class AuthService {
         User user = new User()
                 .setNickName(input.getNickName())
                 .setEmail(input.getEmail())
+                .setRole(UserRole.MEMBER)
                 .setProfile(profileService.getRandomUrl(input.getNickName()))
                 .setPw(passwordEncoder.encode(input.getPw()));
         log.info("sign up finish");
         return userRepository.save(user);
     }
+
 
     public User authenticate(LoginUserDto input) {
         log.info("인증실행");

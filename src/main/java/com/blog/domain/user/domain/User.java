@@ -16,6 +16,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "user_id")
     private long userId;
 
@@ -64,9 +65,6 @@ public class User implements UserDetails {
         return nickName;
     }
 
-    public long getUserId() {
-        return userId;
-    }
 
     public String getProfile() {
         return profile;
@@ -80,6 +78,11 @@ public class User implements UserDetails {
         return role;
     }
 
+    public User setRole(UserRole role) {
+        this.role = role;
+        return this;
+    }
+
     public User setPw(String pw) {
         this.pw = pw;
         return this;
@@ -90,21 +93,12 @@ public class User implements UserDetails {
         return this;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
     public User setProfile(String profile) {
         this.profile = profile;
         return this;
-    }
-
-    public void changePw(String pw) {
-        this.pw = pw;
-    }
-
-    public void changeNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public void changeProfile(String profile) {
-        this.profile = profile;
     }
 
     @Override

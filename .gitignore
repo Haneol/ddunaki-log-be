@@ -1,3 +1,4 @@
+**/application-secret.yml
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -43,3 +44,5 @@ bin/
 
 ### mailSender ###
 src/main/resources/application.yml
+
+**/application-secret.yml

@@ -10,7 +10,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RequestMapping("/api")
 @RestController
@@ -40,10 +46,28 @@ public class AuthController {
         User authenticatedUser = authService.authenticate(loginUserDto);
         log.info("실행됨?");
         String jwtToken =jwtService.generateToken(authenticatedUser);
-        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime())
+                .setUserId(authenticatedUser.getUserId())
+                .setNickName(authenticatedUser.getNickName())
+                .setEmail(authenticatedUser.getEmail())
+                .setProfile(authenticatedUser.getProfile());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION,"Bearer " + jwtToken)
                 .header("Expires-In", String.valueOf(jwtService.getExpirationTime()))
-                .body("Login successful");
+                .body(loginResponse);
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<String>  userWithdrawl(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        boolean result = authService.withdrawl(username);
+        if (result) {
+            log.info("bye");
+            return ResponseEntity.ok("회원탈퇴 성공");
+        } else {
+            model.addAttribute("failed withdrawl", "회원탈퇴 실패");
+            return ResponseEntity.badRequest().body("회원탈퇴 실패");
+        }
     }
 }
