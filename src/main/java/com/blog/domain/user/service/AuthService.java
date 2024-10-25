@@ -4,6 +4,7 @@ package com.blog.domain.user.service;
 import com.blog.domain.user.config.exception.BusinessLogicException;
 import com.blog.domain.user.config.exception.ExceptionCode;
 import com.blog.domain.user.domain.User;
+import com.blog.domain.user.domain.UserRole;
 import com.blog.domain.user.dto.LoginUserDto;
 import com.blog.domain.user.dto.RegisterUserDto;
 import com.blog.domain.user.repository.UserRepository;
@@ -48,6 +49,7 @@ public class AuthService {
         User user = new User()
                 .setNickName(input.getNickName())
                 .setEmail(input.getEmail())
+                .setRole(UserRole.MEMBER)
                 .setProfile(profileService.getRandomUrl(input.getNickName()))
                 .setPw(passwordEncoder.encode(input.getPw()));
         log.info("sign up finish");

@@ -24,6 +24,7 @@ public class CorsConfig {
         configuration.addAllowedMethod(HttpMethod.DELETE);
         configuration.addAllowedMethod(HttpMethod.TRACE);
         configuration.addAllowedMethod(HttpMethod.OPTIONS);
+        configuration.addExposedHeader("Authorization");
         configuration.setAllowedHeaders(List.of("Authorization","Cache-Control","Content-Type"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
