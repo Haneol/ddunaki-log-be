@@ -11,6 +11,8 @@ import com.blog.domain.user.repository.UserRepository;
 import com.blog.global.exception.ForbiddenException;
 import com.blog.global.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,9 +25,10 @@ import static com.blog.domain.space.constant.SpaceExceptionMessage.*;
 @RequiredArgsConstructor
 public class SpaceServiceImpl implements SpaceService {
 
+    private static final Logger logger = LoggerFactory.getLogger(SpaceServiceImpl.class);
+
     private final SpaceRepository spaceRepository;
     private final UserRepository userRepository;
-
     private final SecurityUtils securityUtils;
 
     private User getLoginUser() {
@@ -56,17 +59,18 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceResDto addSpace(SpaceReqDto spaceReqDto) {
+        logger.info("addSpace 메서드 호출: {}", spaceReqDto);
 
         User leader = userRepository.findById(spaceReqDto.getLeaderId())
-                .orElseThrow(() -> new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> {
+                    logger.error("리더를 찾을 수 없습니다. leaderId: {}", spaceReqDto.getLeaderId());
+                    return new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage());
+                });
+
+        logger.info("리더 조회 성공: {}", leader.getEmail());
 
         List<User> members = new ArrayList<>();
         members.add(leader);
-
-        // 최대 멤버 수 체크
-        if (members.size() > spaceReqDto.getMaxMembers()) {
-            throw new IllegalArgumentException(MEMBER_LIMIT_EXCEEDED.getMessage());
-        }
 
         // 새로운 Space 생성
         Space space = Space.builder()
@@ -82,6 +86,7 @@ public class SpaceServiceImpl implements SpaceService {
                 .build();
 
         spaceRepository.save(space);
+        logger.info("새로운 스페이스 저장 성공: {}", space.getSpaceName());
 
         return SpaceResDto.entityToDto(space);
     }
