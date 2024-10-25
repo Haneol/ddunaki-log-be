@@ -39,7 +39,7 @@ public class PostingController {
                 .body(MessageDto.msg(PostingResponseMessage.DELETE_POSTING.getMessage()));
     }
 
-    @GetMapping("/{postingId}")
+    @GetMapping("/title/{postingId}")
     public ResponseEntity<PostingTitleResDto> findPostingTitle(@PathVariable Long postingId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(postingService.findPostingTitle(postingId));
