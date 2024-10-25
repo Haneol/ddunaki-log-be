@@ -90,6 +90,8 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .orElseThrow(() -> new ScheduleUserNotFoundException(SCHEDULE_SPACE_NOT_FOUND.getMessage()));
 
         checkMemberAuthority(space, loginUser);
+
+        scheduleRepository.delete(schedule);
     }
 
     @Override
