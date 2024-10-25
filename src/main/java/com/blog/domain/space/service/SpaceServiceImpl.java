@@ -59,15 +59,8 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public SpaceResDto addSpace(SpaceReqDto spaceReqDto) {
-        logger.info("addSpace 메서드 호출: {}", spaceReqDto);
 
-        User leader = userRepository.findById(spaceReqDto.getLeaderId())
-                .orElseThrow(() -> {
-                    logger.error("리더를 찾을 수 없습니다. leaderId: {}", spaceReqDto.getLeaderId());
-                    return new SpaceUserNotFoundException(SPACE_USER_NOT_FOUND.getMessage());
-                });
-
-        logger.info("리더 조회 성공: {}", leader.getEmail());
+        User leader = getLoginUser();
 
         List<User> members = new ArrayList<>();
         members.add(leader);

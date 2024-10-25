@@ -12,13 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpaceReqDto {
-
-    private Long leaderId;
     private String spaceName;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    //    private List<Long> memberIds;
     private String nationCode;
     private String cityCode;
     private Integer maxMembers;

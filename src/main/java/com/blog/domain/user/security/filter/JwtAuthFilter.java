@@ -33,21 +33,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
-//    @Override
-//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-//        String path = request.getRequestURI();
-//        log.info("check url" + path);
-//
-//        if (path.startsWith("/api/user/")) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return true; // 모든 요청을 필터링하지 않음
+        String path = request.getRequestURI();
+        log.info("check url" + path);
+
+        if (path.startsWith("/api/user/")) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
