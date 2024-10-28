@@ -68,20 +68,15 @@ jobs:
         host: ${{ secrets.ORACLE_CLOUD_HOST }}
         username: ${{ secrets.ORACLE_CLOUD_USER }}
         key: ${{ secrets.ORACLE_CLOUD_SSH_KEY }}
+        command_timeout: "20m"   # 타임아웃 설정 추가
         script: |
-          # 환경 변수 설정
-          export DB_URL="${{ secrets.DB_URL }}"
-          export DB_USERNAME="${{ secrets.DB_USERNAME }}"
-          export DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
-          export MAIL_USERNAME="${{ secrets.MAIL_USERNAME }}"
-          export MAIL_PASSWORD="${{ secrets.MAIL_PASSWORD }}"
-          export JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}"
-          export AWS_ACCESS_KEY="${{ secrets.AWS_ACCESS_KEY }}"
-          export AWS_SECRET_KEY="${{ secrets.AWS_SECRET_KEY }}"
-          
           # 기존 프로세스 종료
-          pid=$(pgrep -f email-sender) && kill -9 $pid || true
-          
+          pid=$(pgrep java) || true
+          if [ ! -z "$pid" ]; then
+            kill $pid || true
+            sleep 10
+          fi
+            
           # 새로운 jar 파일 실행
           cd ~/app
           nohup java -jar \
@@ -94,4 +89,6 @@ jobs:
             -Djwt.secret-key=${JWT_SECRET_KEY} \
             -Dcloud.aws.credentials.accessKey=${AWS_ACCESS_KEY} \
             -Dcloud.aws.credentials.secretKey=${AWS_SECRET_KEY} \
-            *.jar > app.log 2>&1 &
+            *.jar > app.log 2>&1 & disown
+          
+          sleep 5
