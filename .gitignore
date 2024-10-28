@@ -1,3 +1,4 @@
+**/application-secret.yml
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -40,3 +41,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### mailSender ###
+src/main/resources/application.yml
+
+**/application-secret.yml
