@@ -23,7 +23,8 @@ public class Schedule {
     private String spot;
 
     private String memo;
-
+    
+    @Column(name = "schedule_day")
     private LocalDate day;
 
     @ManyToOne(fetch = FetchType.LAZY)
